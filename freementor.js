@@ -1,7 +1,7 @@
-function processForSignin(){
+function processForSignin() {
   window.location.assign("signin.html");
 }
-function processForSignup(){
+function processForSignup() {
   window.location.assign("signup.html");
 }
 

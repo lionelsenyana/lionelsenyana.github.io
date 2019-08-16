@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <style>
+            body {
+                  background-color: #AF877F;
+            }
+
+            h2 {
+                  color: solid black;
+                  text-align: center;
+            }
+
+            p {
+                  color: solid grey;
+                  text-align: center;
+            }
+
+            form,
+            button {
+                  display: inline-block;
+            }
+
+            form {
+                  color: grey;
+            }
+
+            button {
+                  margin-top: 10px;
+                  padding: 10px 50px;
+            }
+
+            #actionSection {
+                  text-align: center;
+            }
+      </style>
+      <script>
+            /*
+             * Since we do not have back-end let's assume 
+             * some hard-coded users for now.  We will
+             * replace once back-end is available
+             */
+            var allUsers = [
+                  "Joe Doe",
+                  "Jane Smith"
+            ];
+
+            function changeToMentor() {
+                  // let's assume the users variable is coming from back-end
+                  if (allUsers) {
+                        var orderListOfUsers =
+                              document.createElement('ol');
+
+                        for (var i = 0; i < allUsers.length; i++) {
+                              var currentUserElment =
+                                    document.createElement('li');
+                              currentUserElment.appendChild(
+                                    document.createTextNode(allUsers[i]));
+                              orderListOfUsers.appendChild(currentUserElment);
+                        }
+                        document.getElementById("usersSection").appendChild(orderListOfUsers);
+                  }
+            }
+      </script>
+</head>
+
+<body>
+      <div id="actionSection">
+            <h2>Select a user</h2>
+            <p>Change user to a mentor:</p>
+
+            <form action="/action_page.php">
+                  <select name="users">
+                        <option value=""></option>
+                        <option value=""></option>
+                        <option value=""></option>
+                        <option value=""></option>
+                  </select>
+                  <br><br>
+                  <button id="submit">change user to a mentor</button>
+            </form>
+      </div>
+      <div id="usersSection">
+      </div>
+</body>
+
+</html>
