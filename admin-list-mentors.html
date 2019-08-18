@@ -11,8 +11,6 @@
                   text-align: center;
             }
 
-            ol {}
-
             ol li {
                   list-style-type: Times-Newroman;
                   margin-left: 400px;
@@ -20,8 +18,8 @@
             }
       </style>
       <script>
+            var initialLoad = true;
             function populateMentors() {
-                  alert("About to load mentors");
                   /*
                    * Since we do not have back-end let's assume 
                    * some hard-coded mentors for now.  We will
@@ -33,6 +31,12 @@
                   ];
                   // let's assume the mentors variable is coming from back-end
                   if (allMentors) {
+                        // add the user dynamically registered earlier:
+                        if(initialLoad == true && localStorage.getItem("mentor")) {
+                              allMentors.push(localStorage.getItem("mentor").email);
+                              initialLoad = false;
+                        }
+
                         var orderListOfMentors =
                               document.createElement('ol');
 

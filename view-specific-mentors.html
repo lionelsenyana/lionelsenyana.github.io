@@ -11,8 +11,6 @@
                   text-align: center;
             }
 
-            ol {}
-
             ol li {
                   list-style-type: Times-Newroman;
                   margin-left: 400px;
@@ -21,7 +19,6 @@
       </style>
       <script>
             function populateSpecificMentors() {
-                  alert("About to load specific mentors");
                   /*
                    * Since we do not have back-end let's assume 
                    * some hard-coded specific mentors for now.  We will
@@ -50,12 +47,14 @@
 </head>
 
 <body onload="populateSpecificMentors()">
-      <div>
-            <h2>A list of specific mentors</h2>
+      <form>
+            <div>
+                  <h2>A list of specific mentors</h2>
 
-            <div id="specificMentorsSection">
+                  <div id="specificMentorsSection">
+                  </div>
             </div>
-      </div>
+      </form>
 </body>
 
 </html>

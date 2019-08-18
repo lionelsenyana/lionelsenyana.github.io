@@ -39,20 +39,21 @@
                   "Joe Doe",
                   "Jane Smith"
             ];
-            // let's assume the mentors variable is coming from back-end
-            if (allMentors) {
-                  var orderListOfMentors =
-                        document.createElement('ol');
+            function sendMentorshipRequest() {
+                  // let's assume the mentors variable is coming from back-end
+                  if (allMentors) {
+                        var orderListOfMentors =
+                              document.createElement('ol');
 
-                  for (var i = 0; i < allMentors.length; i++) {
-                        var currentMentorElment =
-                              document.createElement('li');
-                        currentMentorElment.appendChild(
-                              document.createTextNode(allMentors[i]));
-                        orderListOfMentors.appendChild(currentMentorElment);
+                        for (var i = 0; i < allMentors.length; i++) {
+                              var currentMentorElment =
+                                    document.createElement('li');
+                              currentMentorElment.appendChild(
+                                    document.createTextNode(allMentors[i]));
+                              orderListOfMentors.appendChild(currentMentorElment);
+                        }
+                        document.getElementById("mentorsSection").appendChild(orderListOfMentors);
                   }
-                  document.getElementById("mentorsSection").appendChild(orderListOfMentors);
-            }
             }
       </script>
 </head>
@@ -60,16 +61,14 @@
 <body>
       <div id="actionSection">
             <h2>A list of mentors</h2>
-            <form action="/action_page.php">
+            <form action="">
                   <select name="users">
-                        <option value=""></option>
-                        <option value=""></option>
-                        <option value=""></option>
-                        <option value=""></option>
+                        <option value="">Joe Doe</option>
+                        <option value="">Jane Smith</option>
                   </select>
                   <br><br>
 
-                  <button id="sendRequest" onclick=processSendRequest()>Send request</button>
+                  <button id="sendRequest" onclick=sendMentorshipRequest()>Send request</button>
       </div>
       <div id="mentorsSection">
       </div>

@@ -42,34 +42,60 @@
   <script>
     function validateAndSubmit() {
       var userNameEmail = document.getElementById("userNameEmail").value;
-      if (!userNameEmail) {
+      if ( ! userNameEmail) {
         alert("Missing User Name as Email");
         return false;
-      } else if (!userNameEmail.includes("@")) {
+      } else if ( ! userNameEmail.includes("@")) {
         alert("Your email is missing'@'");
         return false;
+      } else if(userNameEmail !== JSON.parse(localStorage.getItem('user')).email
+          && userNameEmail !== JSON.parse(localStorage.getItem('mentor')).email
+          && userNameEmail !== JSON.parse(localStorage.getItem('admin')).email ) {
+            alert("Invalid credentials");
+            return false;
       }
+
       var password =
         document.getElementById("password").value;
       if (checkPassword(password) == false) {
         return false;
       }
-      return true; // this will signal for the form to submit. Comming up later on...
-    }
 
-    function validateForm() {
+      /*
+       * Validate using locally stored data, since the Database is not ready yet:
+       */
+      var user = JSON.parse(localStorage.getItem('user'));
+      var mentor = JSON.parse(localStorage.getItem('mentor'));
+      var admin = JSON.parse(localStorage.getItem('admin'));
+      var credentialsErrorMessage = "Invalid credentials";
 
+      if(user && user.email == userNameEmail) {
+        if(user.password !== password) {
+          alert(credentialsErrorMessage);
+          return false;
+        }
+      } else if(mentor && mentor.email == userNameEmail) {
+        if(mentor.password !== password) {
+          alert(credentialsErrorMessage);
+          return false;
+        }
+      } else if(admin && admin.email == userNameEmail) {
+        if(admin.password !== password) {
+          alert(credentialsErrorMessage);
+          return false;
+        } 
+      }
+
+      window.location.assign("all-users.html");
+      
+      // return true; // this will signal for the form to submit. Comming up later on...
     }
 
     function checkPassword(password) {
-      if (!password) {
+      if ( ! password) {
         alert("Missing Password");
         return false;
-      }
-      if (password.length < 6) {
-        alert("Password should be at least 6 characters long");
-        return false;
-      }
+      } 
       return true;
     }
   </script>
@@ -85,7 +111,7 @@
       <label>Password:</label>
       <input type="password" id="password">
       <br>
-      <button onclick=validateAndSubmit() type="submit" id="logIn">Log in</button>
+      <button onclick=validateAndSubmit() type="button" id="logIn">Log in</button>
     </form>
   </div>
 </body>
