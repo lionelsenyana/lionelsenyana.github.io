@@ -1,0 +1,27 @@
+{
+  "name": "free-mentors",
+  "version": "1.0.0",
+  "description": "RESTFUL Node.js api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lionelsenyana/Free-mentors.git"
+  },
+  "keywords": [
+    "node",
+    "api",
+    "v1"
+  ],
+  "author": "Lionel Senyana",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lionelsenyana/Free-mentors/issues"
+  },
+  "homepage": "https://github.com/lionelsenyana/Free-mentors#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
