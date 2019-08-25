@@ -77,14 +77,37 @@
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-          // Code for what to do when response comes back
+          // Response came back with success, user is successfully registered
+          console.log("Message after user sign up: <" + this.responseText + ">");
+          var userSignedUp = JSON.parse(this.responseText);
+          if(userSignedUp && userSignedUp.status == 201) {
+            window.location.assign("all-users.html");
+          }
         }
       };
-      xhttp.open("POST", "/api/v1/user/signup", true);
+      xhttp.open("POST", "/api/v1/auth/signup", true);
       xhttp.setRequestHeader("Content-type", "application/json");
+
+      /*
+       * Follows JSON request object as indicated on page 13 of ADC pdf document.
+       * For now, this project is considering a few fields but others will be added later.
+       * Request format as indicated:
+       * {
+       *  "firstName": String,
+       *  "lastName": String,
+       *  "email": String,
+       *  "password": String,
+       *  "address": String,
+       *  "bio": String,
+       *  "occupation": String,
+       *  "expertise": String,
+       *  ...
+       * }
+       */
       var newUser = {};
       newUser.email = userNameEmail;
       newUser.password = password;
+
       xhttp.send(JSON.stringify(newUser));
     }
 

@@ -1,0 +1,42 @@
+{
+	"info": {
+		"_postman_id": "bafee872-b5cc-4746-87c0-8487963a7ad4",
+		"name": "free-mentors",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "signup",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"someuser@example.com\",\n\t\"password\": \"testing123\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/auth/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"signup"
+					]
+				},
+				"description": "Sign up new people who may be users, mentors or admins"
+			},
+			"response": []
+		}
+	]
+}
