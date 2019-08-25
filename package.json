@@ -22,6 +22,8 @@
   },
   "homepage": "https://github.com/lionelsenyana/Free-mentors#readme",
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "dateformat": "^3.0.3",
     "express": "^4.17.1"
   }
 }
