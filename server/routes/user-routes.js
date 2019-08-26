@@ -23,10 +23,48 @@ router.use(function timeLog (req, res, next) {
   });
 
 router.patch('/user/:userId', function(req, res) {
-    //handle change user to a mentor
+      res.set("Content-type", "application/json");
+      console.log('About to change user to mentor: <' + JSON.stringify(req.body) + '>');
+
+      /*
+       * Request structure as indicated on page 14 of ADC pdf document
+       * {
+       *     "token" : String ,
+       *     ...
+       *  }
+       */
+      var token = req.body.token; // token will be validated once database is ready
+      var userId = req.body.userId;
+
+      if(user.email === userId) {
+            /*
+             * Response as indicated on page 14 of ADC pdf document
+             * {
+             *     “status” : Integer: 200 ,
+             *     “data” : {
+             *          “message” : “User account changed to mentor” ,
+             *          ...
+             *      }
+             * }
+             */
+            mentor = user; // currently considering only one type of each (1 user, 1 mentor, 1 admin)
+            var changeToMentorRespose =  {};
+            changeToMentorRespose.status = 201;
+            var data = {};
+            data.token = uuid();
+            data.message = "User account changed to mentor";
+      
+            changeToMentorRespose.data = data;
+      
+            res.status(200).send(changeToMentorRespose);
+      } else {
+            var changeToMentorRespose =  {};
+            changeToMentorRespose.status = 401;
+            changeToMentorRespose.message = "Failed changing user to mentor";
+            res.status(401).send(changeToMentorRespose);  
+      }
 });
 
-// define the about route
 router.patch('/changeUserType', function (req, res) {
 
       res.set("Content-type", "application/json");
@@ -98,4 +136,6 @@ router.patch('localstorage', function(req, res) {
 
 
 // Next is admin gets a list of mentors
+
+module.exports = router;
 

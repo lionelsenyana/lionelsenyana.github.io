@@ -15,7 +15,6 @@ router.use(function timeLog (req, res, next) {
   next();
 });
 
-// define the about route
 router.post('/signup', function (req, res) {
 
       res.set("Content-type", "application/json");
@@ -52,7 +51,7 @@ router.post('/signup', function (req, res) {
             * }
             */
             var signupResponse =  {};
-            signupResponse.status = 201;
+            signupResponse.status = 401;
             signupResponse.message = "Failed to register new user";
             res.status(401).send(signupResponse);
       }
@@ -96,8 +95,8 @@ router.post('/signin', function(req, res) {
            return res.status(200).send(signinResponse);
       }else {
             var signinResponse =  {};
-            signinResponse.status = 200;
-            signinResponse.message = "Failed to register new user";
+            signinResponse.status = 401;
+            signinResponse.message = "Failed to log in new user";
             return res.status(401).send(signinResponse);
 
       }
