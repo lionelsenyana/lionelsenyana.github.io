@@ -4,7 +4,7 @@ var dateFormat = require('dateformat');
 var path = require('path');
 const uuid = require('uuid/v4');
 
-var user = null;
+var user = null;  // should be []
 var mentor = null;
 var admin = null;
 
@@ -77,6 +77,61 @@ function signUp(req) {
             isSignedUp = true;
       }     
       return isSignedUp; // sign up is successful. This will change once DB is available
+}
+
+router.post('/signin', function(req, res) {
+      //set the header
+      res.set("Content-type", "application/json");
+      if(signIn(req)) {
+            //
+            var signinResponse =  {};
+            signinResponse.status = 200;
+            signinResponse.message = "User is successfully logged in";
+            var data = {};
+            data.token = uuid();
+            data.message = "User is successfully logged in";
+
+            signinResponse.data = data;
+
+           return res.status(200).send(signinResponse);
+      }else {
+            var signinResponse =  {};
+            signinResponse.status = 200;
+            signinResponse.message = "Failed to register new user";
+            return res.status(401).send(signinResponse);
+
+      }
+
+})
+
+function signIn(req) {
+      //should return true/false
+
+      //algorithm
+      /*
+            1. get the username/email and password
+            2. filter user or admin depending on the user type base on the email
+            3. compare this filtered user passsowrd and the password in the request 
+            3.1. if password matcheds then return true 
+            3.2. if password doesn't match return false 
+      */
+     const authUser = req.body;
+     //filter user from user list (user)
+     const userData = user.find(function(u) {
+           return u.email === authUser.userNameEmail; // && u.password === authUser.password
+     });
+
+     if(userData) {
+           // compare 
+           if(userData.password === authUser.password) {
+                 return true;
+           }
+           return false;
+     }else {
+           return false;
+     }
+
+
 }
 
 module.exports = router;

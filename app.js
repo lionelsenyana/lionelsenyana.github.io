@@ -1,5 +1,7 @@
 const express = require('express');
 var authorizationRouter = require('./server/routes/auth-routes');
+var userRouter = require('./server/routes/user-routes');
+
 var path = require('path');
 var requestBodyParser = require('body-parser');
 
@@ -25,6 +27,7 @@ app.get(['/', '/api/v1'], (req, res) => {
 );
 
 app.use('/api/v1/auth', authorizationRouter);
+app.use('/api/v1/user', userRouter);
 
 app.listen(port, () => console.log(`Free mentors app listening on port ${port}.`));
 
