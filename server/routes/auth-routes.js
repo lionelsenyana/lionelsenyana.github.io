@@ -57,25 +57,30 @@ router.post('/signup', function (req, res) {
       }
 });
 
-function signUp(req) {
-      console.log('About to sign up a new user: <' + JSON.stringify(req.body) + '>');
-      var isSignedUp = false;
-
-      var profile = {};
-      profile.email = req.body.email;
-      profile.password = req.body.password;
-
-      if(profile.email.startsWith('admin')) {
-            // Since the Database is not available yet, the admin is saved in memory
-            admin = profile;
-            isSignedUp = true;
+router.signUp = function (req) {
+      if( ( ! req) || ( ! req.body) ) {
+            return false;
+      } else {
+            console.log('About to sign up a new user: <' + JSON.stringify(req.body) + '>');
+            var isSignedUp = false;
+      
+            var profile = {};
+            profile.email = req.body.email;
+            profile.password = req.body.password;
+      
+            if(profile.email.startsWith('admin')) {
+                  // Since the Database is not available yet, the admin is saved in memory
+                  admin = profile;
+                  global.savedUser = admin;
+                  isSignedUp = true;
+            } else {
+                  // Since the Database is not available yet, the user is saved in memory
+                  user = profile;
+                  global.savedUser = user;
+                  isSignedUp = true;
+            }     
+            return isSignedUp; // sign up is successful. This will change once DB is available
       }
-      else {
-            // Since the Database is not available yet, the user is saved in memory
-            user = profile;
-            isSignedUp = true;
-      }     
-      return isSignedUp; // sign up is successful. This will change once DB is available
 }
 
 router.post('/signin', function(req, res) {
@@ -88,12 +93,13 @@ router.post('/signin', function(req, res) {
             signinResponse.message = "User is successfully logged in";
             var data = {};
             data.token = uuid();
+            global.savedUser.token = data.token;
             data.message = "User is successfully logged in";
 
             signinResponse.data = data;
 
            return res.status(200).send(signinResponse);
-      }else {
+      } else {
             var signinResponse =  {};
             signinResponse.status = 401;
             signinResponse.message = "Failed to log in new user";
@@ -103,7 +109,7 @@ router.post('/signin', function(req, res) {
 
 })
 
-function signIn(req) {
+router.signIn = function signIn(req) {
       //should return true/false
 
       //algorithm
@@ -114,23 +120,31 @@ function signIn(req) {
             3.1. if password matcheds then return true 
             3.2. if password doesn't match return false 
       */
-     const authUser = req.body;
-     //filter user from user list (user)
-     const userData = user.find(function(u) {
-           return u.email === authUser.userNameEmail; // && u.password === authUser.password
-     });
-
-     if(userData) {
-           // compare 
-           if(userData.password === authUser.password) {
-                 return true;
-           }
-           return false;
-     }else {
-           return false;
-     }
-
-
+      if(req && req.body) {
+            const authUser = req.body;
+            /*
+             * TODO: code below will be restored when database is in place
+             */
+       //      //filter user from user list (user)
+       //      const userData = user.find(function(u) {
+       //            return u.email === authUser.userNameEmail; // && u.password === authUser.password
+       //      });
+            console.log("saved email <" + global.savedUser.email + ">");
+            console.log("saved password <" + global.savedUser.password + ">");
+            if(global.savedUser.email === authUser.email) {
+                  // compare 
+                  if(global.savedUser.password === authUser.password) {
+                        return true;
+                  }
+                  return false;
+            } else {
+                  return false;
+            }
+       
+      }
+      else {
+            return false;
+      }
 }
 
 module.exports = router;
