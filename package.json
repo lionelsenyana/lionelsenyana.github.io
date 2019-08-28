@@ -4,7 +4,8 @@
   "description": "RESTFUL Node.js api",
   "main": "index.js",
   "scripts": {
-    "test": "mocha 'server/tests/**/*.js'"
+    "test": "mocha 'server/tests/**/*.js'",
+    "dev": "nodemon --exec babel-node app.js"
   },
   "repository": {
     "type": "git",

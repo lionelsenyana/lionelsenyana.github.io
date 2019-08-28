@@ -62,12 +62,46 @@
       }
 
       /*
-       * Validate using locally stored data, since the Database is not ready yet:
+       * prepare and make RESTful AJAX call for user sign in:
        */
-      var user = JSON.parse(localStorage.getItem('user'));
-      var mentor = JSON.parse(localStorage.getItem('mentor'));
-      var admin = JSON.parse(localStorage.getItem('admin'));
-      var credentialsErrorMessage = "Invalid credentials";
+       var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          // Response came back with success, user is successfully registered
+          console.log("Message after user sign in: <" + this.responseText + ">");
+          var userSignedIn = JSON.parse(this.responseText);
+          if(userSignedIn && userSignedIn.status == 201) {
+            window.location.assign("all-users.html");
+          }
+        }
+      };
+
+      xhttp.open("POST", "/api/v1/auth/signin", true);
+      xhttp.setRequestHeader("Content-type", "application/json");
+
+       /*
+       * Follows JSON request object as indicated on page 13 of ADC pdf document.
+       * For now, this project is considering a few fields but others will be added later.
+       * Request format as indicated:
+       * {
+       *  "firstName": String,
+       *  "lastName": String,
+       *  "email": String,
+       *  "password": String,
+       *  "address": String,
+       *  "bio": String,
+       *  "occupation": String,
+       *  "expertise": String,
+       *  ...
+       * }
+       */
+      var newUser = {};
+      newUser.email = userNameEmail;
+      newUser.password = password;
+
+      xhttp.send(JSON.stringify(newUser));
+    }
+
 
       if(user && user.email == userNameEmail) {
         if(user.password !== password) {
