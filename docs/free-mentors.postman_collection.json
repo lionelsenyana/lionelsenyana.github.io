@@ -18,7 +18,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"email\": \"someuser@example.com\",\n\t\"password\": \"testing123\"\n}"
+					"raw": "{\n\t\"email\": \"someuser@example.com\",\n\t\"password\": \"testing12345\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:3000/api/v1/auth/signup",
@@ -32,6 +32,196 @@
 						"v1",
 						"auth",
 						"signup"
+					]
+				},
+				"description": "Sign up new people who may be users, mentors or admins"
+			},
+			"response": []
+		},
+		{
+			"name": "signin",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"someuser@example.com\",\n\t\"password\": \"testing12345\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/auth/signin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"signin"
+					]
+				},
+				"description": "Sign up new people who may be users, mentors or admins"
+			},
+			"response": []
+		},
+		{
+			"name": "change user to mentor",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "token",
+						"value": "90707359-a4cb-417d-a1eb-1fb39d0a07ad",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/user/someuser@example.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"someuser@example.com"
+					]
+				},
+				"description": "Sign up new people who may be users, mentors or admins"
+			},
+			"response": []
+		},
+		{
+			"name": "get all mentors",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "token",
+						"type": "text",
+						"value": "90707359-a4cb-417d-a1eb-1fb39d0a07ad"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/mentor/mentors",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"mentor",
+						"mentors"
+					]
+				},
+				"description": "Sign up new people who may be users, mentors or admins"
+			},
+			"response": []
+		},
+		{
+			"name": "get specific mentor",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "token",
+						"type": "text",
+						"value": "90707359-a4cb-417d-a1eb-1fb39d0a07ad"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/mentor/1234",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"mentor",
+						"1234"
+					]
+				},
+				"description": "Sign up new people who may be users, mentors or admins"
+			},
+			"response": []
+		},
+		{
+			"name": "create mentorship",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "token",
+						"type": "text",
+						"value": "7bec9a8c-dee5-4551-8390-a34085a04dd5"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"mentorId\": \"456\",\r\n\t\"questions\": \"What is nodejs?\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/sessions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"sessions"
 					]
 				},
 				"description": "Sign up new people who may be users, mentors or admins"
