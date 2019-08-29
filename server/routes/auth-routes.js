@@ -19,7 +19,7 @@ router.post('/signup', function (req, res) {
 
       res.set("Content-type", "application/json");
 
-      if(signUp(req)) {
+      if(router.signUp(req)) {
             /*
             * The response structure, on success, follows instruction of JSON provided on page 13:
             * {
@@ -36,6 +36,7 @@ router.post('/signup', function (req, res) {
             signupResponse.message = "User created successfully";
             var data = {};
             data.token = uuid();
+            global.savedUser.token = data.token;
             data.message = "User created successfully";
 
             signupResponse.data = data;
@@ -72,11 +73,13 @@ router.signUp = function (req) {
                   // Since the Database is not available yet, the admin is saved in memory
                   admin = profile;
                   global.savedUser = admin;
+                  global.savedUser.type = "admin";
                   isSignedUp = true;
             } else {
                   // Since the Database is not available yet, the user is saved in memory
                   user = profile;
                   global.savedUser = user;
+                  global.savedUser.type = "user";
                   isSignedUp = true;
             }     
             return isSignedUp; // sign up is successful. This will change once DB is available
@@ -86,7 +89,7 @@ router.signUp = function (req) {
 router.post('/signin', function(req, res) {
       //set the header
       res.set("Content-type", "application/json");
-      if(signIn(req)) {
+      if(router.signIn(req)) {
             //
             var signinResponse =  {};
             signinResponse.status = 200;
@@ -129,9 +132,9 @@ router.signIn = function signIn(req) {
        //      const userData = user.find(function(u) {
        //            return u.email === authUser.userNameEmail; // && u.password === authUser.password
        //      });
-            console.log("saved email <" + global.savedUser.email + ">");
-            console.log("saved password <" + global.savedUser.password + ">");
-            if(global.savedUser.email === authUser.email) {
+            if(global.savedUser && global.savedUser.email === authUser.email) {
+                  console.log("saved email <" + global.savedUser.email + ">");
+                  console.log("saved password <" + global.savedUser.password + ">");
                   // compare 
                   if(global.savedUser.password === authUser.password) {
                         return true;

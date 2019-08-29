@@ -42,11 +42,10 @@ router.use(function timeLog (req, res, next) {
   next();
 });
 
-router.post('/sessions', function (req, res) {
+router.post('/', function (req, res) {
       res.set("Content-type", "application/json");
-      console.log('About to create a mentorship session: <' + JSON.stringify(req.body) + '>');
+      console.log('About to create a mentorship session');
 
-      var token = req.body.token; // token will be validated once database is ready
       var mentorId = req.body.mentorId;
 
       var allMentors = [mentor1, mentor2]; // Using hard-coded values since there is no database
@@ -59,6 +58,7 @@ router.post('/sessions', function (req, res) {
                         data.sessionId = uuid();
                         data.mentorId = mentor.mentorId;
                         data.status = "pending";
+                        mentor.questions = req.body.questions;
                         isMentorFound = true;
                   }
             }
@@ -83,7 +83,7 @@ router.post('/sessions', function (req, res) {
 });
 
 
-router.patch('/sessions/:sessionId/accept', function (req, res) {
+router.patch('/:sessionId/accept', function (req, res) {
       res.set("Content-type", "application/json");
       console.log('About to accept a session: <' + JSON.stringify(req.body) + '>');
 

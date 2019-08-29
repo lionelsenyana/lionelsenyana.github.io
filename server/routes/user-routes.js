@@ -22,9 +22,9 @@ router.use(function timeLog (req, res, next) {
     next();
   });
 
-router.patch('/user/:userId', function(req, res) {
+router.patch('/:userId', function(req, res) {
       res.set("Content-type", "application/json");
-      console.log('About to change user to mentor: <' + JSON.stringify(req.body) + '>');
+      console.log('About to change user ' + '<' + req.params.userId + '>' + ' to mentor');
 
       /*
        * Request structure as indicated on page 14 of ADC pdf document
@@ -33,10 +33,18 @@ router.patch('/user/:userId', function(req, res) {
        *     ...
        *  }
        */
-      var token = req.body.token; // token will be validated once database is ready
-      var userId = req.body.userId;
+      var userId = req.params.userId;
+      console.log("user id <" + userId + ">");
+      console.log("token id <" + req.get('token') + ">");
+      console.log("saved email <" + global.savedUser.email + ">");
 
-      if(user.email === userId) {
+      if( ! global.savedUser) {
+            var changeToMentorRespose =  {};
+            changeToMentorRespose.status = 401;
+            changeToMentorRespose.message = "User does not exist in the system";
+            res.status(401).send(changeToMentorRespose);  
+      }
+      if(global.savedUser.email === userId && global.savedUser.token === req.get('token') ) {
             /*
              * Response as indicated on page 14 of ADC pdf document
              * {
@@ -47,11 +55,10 @@ router.patch('/user/:userId', function(req, res) {
              *      }
              * }
              */
-            mentor = user; // currently considering only one type of each (1 user, 1 mentor, 1 admin)
+            global.savedUser.type = "mentor";
             var changeToMentorRespose =  {};
             changeToMentorRespose.status = 201;
             var data = {};
-            data.token = uuid();
             data.message = "User account changed to mentor";
       
             changeToMentorRespose.data = data;
@@ -60,7 +67,7 @@ router.patch('/user/:userId', function(req, res) {
       } else {
             var changeToMentorRespose =  {};
             changeToMentorRespose.status = 401;
-            changeToMentorRespose.message = "Failed changing user to mentor";
+            changeToMentorRespose.message = "Failed changing user to mentor. User is not authenticated";
             res.status(401).send(changeToMentorRespose);  
       }
 });
@@ -101,7 +108,7 @@ router.patch('/changeUserType', function (req, res) {
             * }
             */
             var changeUserTypeResponse =  {};
-            changeUserTypeResponse.status = 201;
+            changeUserTypeResponse.status = 401;
             changeUserTypeResponse.message = "Failed to change user type";
             res.status(401).send(changeUserTypeResponse);
       }

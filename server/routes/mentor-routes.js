@@ -34,55 +34,72 @@ mentor2.bio = '';
 mentor2.occupation = 'Software Engineer';
 mentor2.expertise = 'JavaScript';
 
-
 // Specific to user routes
 router.use(function timeLog (req, res, next) {
-  console.log('Mentor Router accessed at: '
+  console.log('Mentors Router accessed at: '
       , dateFormat(new Date(), "yyyy-mm-dd hh:MM:ss"));
   next();
 });
 
 router.get('/mentors', function (req, res) {
       res.set("Content-type", "application/json");
-      console.log('About to read all mentors: <' + JSON.stringify(req.body) + '>');
 
-      var token = req.body.token; // token will be validated once database is ready
+      console.log('About to read all mentors');
+      console.log("token id passed in <" + req.get('token') + ">");
 
-      var data = {};
+      if( global.savedUser && global.savedUser.token === req.get('token')) {
+            var data = {};
 
-      var data = [mentor1, mentor2];
+            var data = [mentor1, mentor2];
 
-      var mentorsResponse = {};
-      mentorsResponse.status = 200;
-      mentorsResponse.data = data;
+            // saving in-memory, because there is no database yet
+            global.savedMentors = data;
+      
+            var mentorsResponse = {};
+            mentorsResponse.status = 200;
+            mentorsResponse.data = data;
+      
+            console.log("All mentors: <" + mentorsResponse + ">");
+            res.status(200).send(mentorsResponse);
 
-      res.status(200).send(mentorsResponse);
+      } else {
+            var signinResponse =  {};
+            signinResponse.status = 401;
+            signinResponse.message = "User is not authenticated";
+            return res.status(401).send(signinResponse);
+      }
 });
 
 
-router.get('/mentors/:mentorId', function (req, res) {
+router.get('/:mentorId', function (req, res) {
       res.set("Content-type", "application/json");
-      console.log('About to read a specific mentor: <' + JSON.stringify(req.body) + '>');
+      console.log('About to read a specific mentor with Id: <' + req.params.mentorId + '>');
 
-      var token = req.body.token; // token will be validated once database is ready
-      var mentorId = req.body.mentorId;
+      if(global.savedUser && global.savedUser.token === req.get('token')) {
+            var mentorId = req.params.mentorId;
 
-      var allMentors = [mentor1, mentor2]; // Using hard-coded values since there is no database
-      
-      var data = {};
-      allMentors.forEach(
-            (mentor) => {
-                  if(mentor.mentorId === mentorId) {
-                        data = mentor;
+            var allMentors = [mentor1, mentor2]; // Using hard-coded values since there is no database
+            
+            var data = {};
+            allMentors.forEach(
+                  (mentor) => {
+                        if(mentor.mentorId === mentorId) {
+                              data = mentor;
+                        }
                   }
-            }
-      );
+            );
+            
+            var specificMentorResponse = {};
+            specificMentorResponse.status = 200;
+            specificMentorResponse.data = data;
       
-      var specificMentorResponse = {};
-      specificMentorResponse.status = 200;
-      specificMentorResponse.data = data;
-
-      res.status(200).send(specificMentorResponse);
+            res.status(200).send(specificMentorResponse);
+      } else {
+            var signinResponse =  {};
+            signinResponse.status = 401;
+            signinResponse.message = "User is not authenticated";
+            return res.status(401).send(signinResponse);
+      }
 });
 
 

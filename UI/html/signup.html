@@ -81,6 +81,7 @@
           console.log("Message after user sign up: <" + this.responseText + ">");
           var userSignedUp = JSON.parse(this.responseText);
           if(userSignedUp && userSignedUp.status == 201) {
+            localStorage.setItem("token", userSignedUp.data.token);
             window.location.assign("all-users.html");
           }
         }
