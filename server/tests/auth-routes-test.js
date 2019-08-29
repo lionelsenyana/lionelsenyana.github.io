@@ -1,6 +1,7 @@
 var assert = require('assert');
 var authorizationRouter = require('../routes/auth-routes');
 
+
 /*
  * 1) Tests for sign up:
  */

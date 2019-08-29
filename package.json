@@ -4,7 +4,7 @@
   "description": "RESTFUL Node.js api",
   "main": "index.js",
   "scripts": {
-    "test": "mocha 'server/tests/**/*.js'",
+    "test": "mocha 'server/tests/**/*.js' --require @babel/polyfill --require @babel/register --timeout 10000 --exit",
     "dev": "nodemon --exec babel-node app.js"
   },
   "repository": {
@@ -23,9 +23,19 @@
   },
   "homepage": "https://github.com/lionelsenyana/Free-mentors#readme",
   "dependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/node": "^7.5.5",
+    "@babel/polyfill": "^7.4.4",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/register": "^7.5.5",
     "body-parser": "^1.19.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "dateformat": "^3.0.3",
     "express": "^4.17.1",
+    "mocha": "^6.2.0",
+    "nodemon": "^1.19.1",
     "server": "^1.0.19",
     "uuid": "^3.3.3"
   }

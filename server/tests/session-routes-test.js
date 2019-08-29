@@ -1,6 +1,7 @@
 var assert = require('assert');
 var sessionRouter = require('../routes/session-routes');
 
+
 /*
  * 1) Tests for sign up:
  */
