@@ -88,7 +88,6 @@ router.patch('/:sessionId/accept', function (req, res) {
       res.set("Content-type", "application/json");
       console.log('About to accept a session: <' + JSON.stringify(req.body) + '>');
 
-      var token = req.body.token; // token will be validated once database is ready
       var mentorId = req.body.mentorId;
 
       var allMentors = [mentor1, mentor2]; // Using hard-coded values since there is no database

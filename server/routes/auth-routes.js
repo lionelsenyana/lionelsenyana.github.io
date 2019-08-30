@@ -96,8 +96,7 @@ router.post('/signin', function(req, res) {
             signinResponse.status = 200;
             signinResponse.message = "User is successfully logged in";
             var data = {};
-            data.token = uuid();
-            global.savedUser.token = data.token;
+            data.token = global.savedUser.token;
             data.message = "User is successfully logged in";
 
             signinResponse.data = data;
@@ -115,7 +114,6 @@ router.post('/signin', function(req, res) {
 
 router.signIn = function signIn(req) {
       //should return true/false
-
       //algorithm
       /*
             1. get the username/email and password
@@ -138,6 +136,8 @@ router.signIn = function signIn(req) {
                   console.log("saved password <" + global.savedUser.password + ">");
                   // compare 
                   if(global.savedUser.password === authUser.password) {
+                        global.savedUser.token = uuid();
+                        console.log("The token is <" + global.savedUser.token + ">");
                         return true;
                   }
                   return false;

@@ -48,21 +48,10 @@ router.get('/mentors', function (req, res) {
       console.log('About to read all mentors');
       console.log("token id passed in <" + req.get('token') + ">");
 
-      if( global.savedUser && global.savedUser.token === req.get('token')) {
-            var data = {};
-
-            var data = [mentor1, mentor2];
-
-            // saving in-memory, because there is no database yet
-            global.savedMentors = data;
-      
-            var mentorsResponse = {};
-            mentorsResponse.status = 200;
-            mentorsResponse.data = data;
-      
+      var mentorsResponse = router.readAllMentors(req.get('token')); 
+      if(mentorsResponse) {
             console.log("All mentors: <" + mentorsResponse + ">");
             res.status(200).send(mentorsResponse);
-
       } else {
             var signinResponse =  {};
             signinResponse.status = 401;
@@ -70,6 +59,27 @@ router.get('/mentors', function (req, res) {
             return res.status(401).send(signinResponse);
       }
 });
+
+router.readAllMentors = function(inputToken) {
+
+      var mentorsResponse = null;
+
+      if( global.savedUser && global.savedUser.token === inputToken) {
+            var data = {};
+
+            var data = [mentor1, mentor2];
+
+            // saving in-memory, because there is no database yet
+            global.savedMentors = data;
+
+            mentorsResponse = {};
+            
+            mentorsResponse.status = 200;
+            mentorsResponse.data = data;
+      }
+      
+      return mentorsResponse;
+}
 
 
 router.get('/:mentorId', function (req, res) {

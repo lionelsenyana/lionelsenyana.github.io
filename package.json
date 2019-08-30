@@ -4,7 +4,8 @@
   "description": "RESTFUL Node.js api",
   "main": "index.js",
   "scripts": {
-    "test": "mocha 'server/tests/**/*.js' --require @babel/polyfill --require @babel/register --timeout 10000 --exit",
+    "test-via-babel": "mocha 'server/tests/**/*.js' --require @babel/polyfill --require @babel/register --timeout 10000 --exit",
+    "test": "mocha 'server/tests/**/*.js'",
     "dev": "nodemon --exec babel-node app.js"
   },
   "repository": {
