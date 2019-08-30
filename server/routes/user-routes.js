@@ -45,6 +45,9 @@ router.patch('/:userId', function(req, res) {
             changeToMentorRespose.message = "User does not exist in the system";
             res.status(401).send(changeToMentorRespose);  
       }
+     
+      // fixing token 
+      
       if(global.savedUser.email === userId && global.savedUser.token === req.get('token') ) {
             /*
              * Response as indicated on page 14 of ADC pdf document
@@ -89,6 +92,7 @@ router.patch('/changeUserType', function (req, res) {
             *    }
             * }
             */
+
             var changeUserTypeResponse =  {};
             changeUserTypeResponse.status = 200;
             changeUserTypeResponse.message = "User account changed to mentor";

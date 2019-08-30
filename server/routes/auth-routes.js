@@ -1,11 +1,12 @@
-var express = require('express');
-var router = express.Router();
-var dateFormat = require('dateformat');
+let express = require('express');
+
+let router = express.Router();
+let dateFormat = require('dateformat');
 var path = require('path');
 const uuid = require('uuid/v4');
+import jwt from 'jsonwebtoken';
 
-
-var user = null;  // should be []
+let user = null;  // should be []
 var mentor = null;
 var admin = null;
 
@@ -36,13 +37,23 @@ router.post('/signup', function (req, res) {
             signupResponse.status = 201;
             signupResponse.message = "User created successfully";
             var data = {};
-            data.token = uuid();
+            /**
+             * create a token
+             */
+            const payload = {
+                  "email": req.body.email,
+            }
+            const token = jwt.sign(payload, 'LIO', {expiresIn: '1d'})
+
+            data.token = token;           
+
+
             global.savedUser.token = data.token;
             data.message = "User created successfully";
 
             signupResponse.data = data;
 
-            res.status(200).send(signupResponse);
+            res.status(201).send(signupResponse);
       } else {
             // sign up failed:
             /*
@@ -96,7 +107,18 @@ router.post('/signin', function(req, res) {
             signinResponse.status = 200;
             signinResponse.message = "User is successfully logged in";
             var data = {};
-            data.token = global.savedUser.token;
+
+
+            //data.token = uuid();
+
+            const payload = {
+                  "email": req.body.email,
+            }
+            const token = jwt.sign(payload, 'LIO', {expiresIn: '1d'})
+
+            data.token = token; 
+
+            global.savedUser.token = data.token;
             data.message = "User is successfully logged in";
 
             signinResponse.data = data;
@@ -114,6 +136,7 @@ router.post('/signin', function(req, res) {
 
 router.signIn = function signIn(req) {
       //should return true/false
+
       //algorithm
       /*
             1. get the username/email and password
@@ -136,8 +159,6 @@ router.signIn = function signIn(req) {
                   console.log("saved password <" + global.savedUser.password + ">");
                   // compare 
                   if(global.savedUser.password === authUser.password) {
-                        global.savedUser.token = uuid();
-                        console.log("The token is <" + global.savedUser.token + ">");
                         return true;
                   }
                   return false;
