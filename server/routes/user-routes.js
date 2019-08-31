@@ -76,71 +76,71 @@ router.patch('/:userId', function(req, res) {
       }
 });
 
-router.patch('/changeUserType', function (req, res) {
+// router.patch('/changeUserType', function (req, res) {
 
-      res.set("Content-type", "application/json");
+//       res.set("Content-type", "application/json");
 
-      if(changeUserType(req)) {
-            /*
-            * The response structure, on success, follows instruction of JSON provided on page 14:
-            * {
-            *    "status": Integer: 200,
-            *    "message": String: "User account changed to a mentor"
-            *    "data": {
-            *          "token": String,
-            *          "message": "User account changed to a mentor"
-            *    }
-            * }
-            */
+//       if(changeUserType(req)) {
+//             /*
+//             * The response structure, on success, follows instruction of JSON provided on page 14:
+//             * {
+//             *    "status": Integer: 200,
+//             *    "message": String: "User account changed to a mentor"
+//             *    "data": {
+//             *          "token": String,
+//             *          "message": "User account changed to a mentor"
+//             *    }
+//             * }
+//             */
 
-            var changeUserTypeResponse =  {};
-            changeUserTypeResponse.status = 200;
-            changeUserTypeResponse.message = "User account changed to mentor";
-            var data = {};
-            data.token = uuid();
-            data.message = "User account changed to mentor";
+//             var changeUserTypeResponse =  {};
+//             changeUserTypeResponse.status = 200;
+//             changeUserTypeResponse.message = "User account changed to mentor";
+//             var data = {};
+//             data.token = uuid();
+//             data.message = "User account changed to mentor";
 
-            changeUserTypeResponse.data = data;
+//             changeUserTypeResponse.data = data;
 
-            res.status(200).send(changeUserTypeResponse);
-      } else {
-            // change user type failed:
-            /*
-            * The response structure, on failure, follows instruction of JSON provided on page 10:
-            * {
-            *    "status": Integer: 401,
-            *    "message": String: "Failed to change user type"
-            * }
-            */
-            var changeUserTypeResponse =  {};
-            changeUserTypeResponse.status = 401;
-            changeUserTypeResponse.message = "Failed to change user type";
-            res.status(401).send(changeUserTypeResponse);
-      }
-});
+//             res.status(200).send(changeUserTypeResponse);
+//       } else {
+//             // change user type failed:
+//             /*
+//             * The response structure, on failure, follows instruction of JSON provided on page 10:
+//             * {
+//             *    "status": Integer: 401,
+//             *    "message": String: "Failed to change user type"
+//             * }
+//             */
+//             var changeUserTypeResponse =  {};
+//             changeUserTypeResponse.status = 401;
+//             changeUserTypeResponse.message = "Failed to change user type";
+//             res.status(401).send(changeUserTypeResponse);
+//       }
+// });
 
-function changeUserType(req) {
-      console.log('About to change user to a mentor: <' + JSON.stringify(req.body) + '>');
-      var isChangedType = false;
+// function changeUserType(req) {
+//       console.log('About to change user to a mentor: <' + JSON.stringify(req.body) + '>');
+//       var isChangedType = false;
 
-      var profile = {};
-      localStorage.removeItem("user");
-      localStorage.setItem("mentor");
+//       var profile = {};
+//       localStorage.removeItem("user");
+//       localStorage.setItem("mentor");
 
       
 
-      if(profile.localstorage.setItem('mentor')) {
-            // Since the Database is not available yet, the mentor is saved in memory
-            localstorage = profile;
-            isChangedType = true;
-      }
-      else {
-            // Since the Database is not available yet, the mentor is saved in memory
-            localstorage = profile;
-            isChangedType = true;
-      }     
-      return isChangedType; // change user type is successful. This will change once DB is available
-}
+//       if(profile.localstorage.setItem('mentor')) {
+//             // Since the Database is not available yet, the mentor is saved in memory
+//             localstorage = profile;
+//             isChangedType = true;
+//       }
+//       else {
+//             // Since the Database is not available yet, the mentor is saved in memory
+//             localstorage = profile;
+//             isChangedType = true;
+//       }     
+//       return isChangedType; // change user type is successful. This will change once DB is available
+// }
 
 router.patch('localstorage', function(req, res) {
     //handle change user type

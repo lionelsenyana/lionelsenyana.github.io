@@ -43,10 +43,9 @@ router.post('/signup', function (req, res) {
             const payload = {
                   "email": req.body.email,
             }
-            const token = jwt.sign(payload, 'LIO', {expiresIn: '1d'});
+            const token = jwt.sign(payload, 'LIO', {expiresIn: '1d'})
 
-            data.token = token;    
-            console.log("token created <" + data.token + ">");       
+            data.token = token;           
 
 
             global.savedUser.token = data.token;
@@ -54,7 +53,7 @@ router.post('/signup', function (req, res) {
 
             signupResponse.data = data;
 
-            res.status(200).send(signupResponse);
+            res.status(201).send(signupResponse);
       } else {
             // sign up failed:
             /*
@@ -78,24 +77,26 @@ router.signUp = function (req) {
             console.log('About to sign up a new user: <' + JSON.stringify(req.body) + '>');
             var isSignedUp = false;
       
-            var profile = {};
-            profile.email = req.body.email;
-            profile.password = req.body.password;
-      
-            if(profile.email.startsWith('admin')) {
-                  // Since the Database is not available yet, the admin is saved in memory
-                  admin = profile;
-                  global.savedUser = admin;
-                  global.savedUser.type = "admin";
-                  isSignedUp = true;
-            } else {
-                  // Since the Database is not available yet, the user is saved in memory
-                  user = profile;
-                  global.savedUser = user;
-                  global.savedUser.type = "user";
-                  isSignedUp = true;
-            }     
-            return isSignedUp; // sign up is successful. This will change once DB is available
+            if(req.body.email) {
+                  var profile = {};
+                  profile.email = req.body.email;
+                  profile.password = req.body.password;
+            
+                  if(profile.email.startsWith('admin')) {
+                        // Since the Database is not available yet, the admin is saved in memory
+                        admin = profile;
+                        global.savedUser = admin;
+                        global.savedUser.type = "admin";
+                        isSignedUp = true;
+                  } else {
+                        // Since the Database is not available yet, the user is saved in memory
+                        user = profile;
+                        global.savedUser = user;
+                        global.savedUser.type = "user";
+                        isSignedUp = true;
+                  }     
+                  return isSignedUp; // sign up is successful. This will change once DB is available
+            }
       }
 }
 
@@ -135,7 +136,7 @@ router.post('/signin', function(req, res) {
 
 })
 
-router.signIn = function signIn(req) {
+router.signIn = function(req) {
       //should return true/false
 
       //algorithm

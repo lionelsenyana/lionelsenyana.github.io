@@ -48,6 +48,7 @@ router.post('/', function (req, res) {
       console.log('About to create a mentorship session');
 
       var mentorId = req.body.mentorId;
+      console.log("mentor id[" + mentorId + "]");
 
       var allMentors = [mentor1, mentor2]; // Using hard-coded values since there is no database
       
@@ -57,6 +58,7 @@ router.post('/', function (req, res) {
             (mentor) => {
                   if(mentor.mentorId === mentorId) {
                         data.sessionId = uuid();
+                        global.savedUser.sessionId = data.sessionId;
                         data.mentorId = mentor.mentorId;
                         data.status = "pending";
                         mentor.questions = req.body.questions;
@@ -65,7 +67,7 @@ router.post('/', function (req, res) {
             }
       );
       
-      if(isMentorFound == true) {
+      if(global.savedUser.token === req.get('token') && isMentorFound == true) {
             var specificMentorResponse = {};
             specificMentorResponse.status = 200;
             specificMentorResponse.data = data;
@@ -105,7 +107,7 @@ router.patch('/:sessionId/accept', function (req, res) {
             }
       );
       
-      if(isMentorFound == true) {
+      if(global.savedUser.token === req.get('token') && isMentorFound == true) {
             var specificMentorResponse = {};
             specificMentorResponse.status = 200;
             specificMentorResponse.data = data;
@@ -123,7 +125,7 @@ router.patch('/:sessionId/accept', function (req, res) {
 });
 
 
-router.patch('/sessions/:sessionId/reject', function (req, res) {
+router.patch('/:sessionId/reject', function (req, res) {
       res.set("Content-type", "application/json");
       console.log('About to accept a session: <' + JSON.stringify(req.body) + '>');
 
@@ -145,7 +147,7 @@ router.patch('/sessions/:sessionId/reject', function (req, res) {
             }
       );
       
-      if(isMentorFound == true) {
+      if(global.savedUser.token === req.get('token') && isMentorFound == true) {
             var specificMentorResponse = {};
             specificMentorResponse.status = 200;
             specificMentorResponse.data = data;
