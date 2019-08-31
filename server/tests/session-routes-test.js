@@ -1,10 +1,48 @@
 // var assert = require('assert');
 // var sessionRouter = require('../routes/session-routes');
 
-
 // /*
 //  * 1) Tests for creating a session:
 //  */
+
+import chai from 'chai';
+import chaiHttp from 'chai-http';
+import { describe, it } from 'mocha';
+import server from '../../app';
+
+const { expect } = chai;
+chai.use(chaiHttp);
+
+const newUser = {
+  token: 'jwt',
+};
+
+describe('User should create sessions', () => {
+  it('Expect to create sessions', (done) => {
+    chai.request(server)
+      .post('/api/v1/sessions')
+      .send(newUser)
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an('object');
+        done();
+      });
+  });
+  it('Expect to fail to create sessions', (done) => {
+    chai.request(server)
+      .post('/api/v1/sessions')
+      .send(newUser)
+      .end((err, res) => {
+        console.log(res.body);
+        
+        expect(res).to.have.status(401);
+        expect(res.body).to.be.an('object');
+        done();
+      });
+  });
+});
+
+
 // describe('sessions', function() {
 //     describe('#createSessions(), with empty input', function() { 
 //       var inputToken = null;
@@ -36,6 +74,31 @@
 // /*
 //  * 2) Tests for accepting a session:
 //  */
+describe('Mentor should accept a session', () => {
+    it('Expect to accept a session', (done) => {
+      chai.request(server)
+        .patch('/api/v1/sessions/:sessionId/accept')
+        .send(newUser)
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.be.an('object');
+          done();
+        });
+    });
+    it('Expect to fail to accept a session', (done) => {
+      chai.request(server)
+        .patch('/api/v1/sessions/:sessionId/accept')
+        .send(newUser)
+        .end((err, res) => {
+          console.log(res.body);
+          
+          expect(res).to.have.status(401);
+          expect(res.body).to.be.an('object');
+          done();
+        });
+    });
+  });
+
 
 // describe('acceptingSession', function() {
 // describe('#acceptSession(), with empty input', function() {
@@ -68,8 +131,33 @@
 
 
 // /*
-//  * 2) Tests for rejecting a session:
+//  * 3) Tests for rejecting a session:
 //  */
+
+describe('Mentor should reject a session', () => {
+    it('Expect to reject a session', (done) => {
+      chai.request(server)
+        .patch('/api/v1/sessions/:sessionId/reject')
+        .send(newUser)
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.be.an('object');
+          done();
+        });
+    });
+    it('Expect to fail to reject a session', (done) => {
+      chai.request(server)
+        .patch('/api/v1/sessions/:sessionId/reject')
+        .send(newUser)
+        .end((err, res) => {
+          console.log(res.body);
+          
+          expect(res).to.have.status(401);
+          expect(res.body).to.be.an('object');
+          done();
+        });
+    });
+  });
 // describe('rejectingSession', function() {
 //     describe('#rejectingSession(), with empty input', function() {
 //          var inputToken = null;

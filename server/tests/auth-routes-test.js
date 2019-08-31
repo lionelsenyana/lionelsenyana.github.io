@@ -32,15 +32,15 @@ describe('User should signup', () => {
       .end((err, res) => {
         console.log(res.body);
         
-        // expect(res).to.have.status(401);
-        // expect(res.body).to.be.an('object');
+        expect(res).to.have.status(401);
+        expect(res.body).to.be.an('object');
         done();
       });
   });
 });
 
 /*
- * 1) Tests for sign up:
+ * 1) Tests for sign in:
  */
 
 describe('User should signin', () => {
@@ -54,6 +54,19 @@ describe('User should signin', () => {
         done();
       });
   });
+});
+it('Expect signin to fail', (done) => {
+  chai.request(server)
+    .post('/api/v1/auth/signup')
+    .send(newUser)
+    .end((err, res) => {
+      console.log(res.body);
+      
+      expect(res).to.have.status(401);
+      expect(res.body).to.be.an('object');
+      done();
+    });
+});
 });
 // describe('Signup', function() {
 //   describe('#signUp(), with null input', function() {

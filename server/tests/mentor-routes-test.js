@@ -2,10 +2,48 @@
 // var mentorRouter = require('../routes/mentor-routes');
 // var autRouter = require('../routes/auth-routes');
 
-
 // /*
 //  * 1) Tests for getting a list of mentors:
 //  */
+
+import chai from 'chai';
+import chaiHttp from 'chai-http';
+import { describe, it } from 'mocha';
+import server from '../../app';
+
+const { expect } = chai;
+chai.use(chaiHttp);
+
+const newUser = {
+  token: 'jwt',
+};
+
+describe('User should get all mentors', () => {
+  it('Expect to get all mentors', (done) => {
+    chai.request(server)
+      .get('/api/v1/mentor/mentors')
+      .send(newUser)
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an('object');
+        done();
+      });
+  });
+  it('Expect to fail to get all mentors', (done) => {
+    chai.request(server)
+      .get('/api/v1/mentor/mentors')
+      .send(newUser)
+      .end((err, res) => {
+        console.log(res.body);
+        
+        expect(res).to.have.status(401);
+        expect(res.body).to.be.an('object');
+        done();
+      });
+  });
+});
+
+
 // describe('mentors', function() {
 //     describe('#readAllMentors(), with empty input', function() { 
 //       var inputToken = null;
@@ -38,6 +76,34 @@
 //   });
 
 
+
 //   /*
 //    * 2) Tests to get a specific mentor
 //    */
+
+
+
+describe('User should get a specific mentor', () => {
+  it('Expect to get a specific mentor', (done) => {
+    chai.request(server)
+      .get('/api/v1/mentor/:mentorId')
+      .send(newUser)
+      .end((err, res) => {
+        expect(res).to.have.status(201);
+        expect(res.body).to.be.an('object');
+        done();
+      });
+  });
+  it('Expect to fail to get a specific mentor', (done) => {
+    chai.request(server)
+      .get('/api/v1/mentor/:mentorId')
+      .send(newUser)
+      .end((err, res) => {
+        console.log(res.body);
+        
+        expect(res).to.have.status(401);
+        expect(res.body).to.be.an('object');
+        done();
+      });
+  });
+});

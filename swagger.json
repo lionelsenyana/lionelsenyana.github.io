@@ -69,14 +69,14 @@
                 "tags": [
                     "Users"
                 ],
-                "summary": "create new user",
+                "summary": "login new user",
                 "parameters": [
                     {
                         "name": "users",
                         "in": "body",
                         "description": "user provide input",
                         "schema": {
-                        "$ref": "#definitions/signup"
+                        "$ref": "#definitions/signin"
                         }
                     }
                 ],
@@ -84,8 +84,8 @@
                     "application/json"
                 ],
                 "responses": {
-                    "201": {
-                        "description": "User succesfuly created"
+                    "200": {
+                        "description": "User is successfully logged in"
                     },
                     "401": {
                         "description": "Authentication error"
@@ -111,5 +111,5 @@
             }
         }
     }
-
+    
 }

@@ -15,21 +15,34 @@ chai.use(chaiHttp);
 
 const newUser = {
   email: '1@gmail.com',
-  password: '123456',
+  token: 'jwt',
 };
 
-// describe('User should signup', () => {
-//   it('Expect signup to pass', (done) => {
-//     chai.request(server)
-//       .post('/api/v1/auth/signup')
-//       .send(newUser)
-//       .end((err, res) => {
-//         expect(res).to.have.status(201);
-//         expect(res.body).to.be.an('object');
-//         done();
-//       });
-//   });
-// });
+describe('User should be changed to a mentor', () => {
+  it('Expect change to pass', (done) => {
+    chai.request(server)
+      .patch('/api/v1/user/:userId')
+      .send(newUser)
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an('object');
+        done();
+      });
+  });
+  it('Expect change to fail', (done) => {
+    chai.request(server)
+      .patch('/api/v1/user/:userId')
+      .send(newUser)
+      .end((err, res) => {
+        console.log(res.body);
+        
+        expect(res).to.have.status(401);
+        expect(res.body).to.be.an('object');
+        done();
+      });
+  });
+});
+
 // describe('changeUserType', function() {
 //     describe('#changeUserType(), with empty input', function() {
 //       var req = {};
