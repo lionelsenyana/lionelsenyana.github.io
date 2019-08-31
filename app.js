@@ -20,8 +20,8 @@ app.use(
   requestBodyParser.urlencoded(
     {
       extended: true,
-    },
-  ),
+    }
+  )
 );
 
 app.use(requestBodyParser.json());

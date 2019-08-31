@@ -8,6 +8,7 @@ package_lock.json
 .settings/
 server/node_modules
 node_modules
+.vscode/
 # Executables
 *.swf
 *.air

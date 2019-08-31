@@ -43,9 +43,10 @@ router.post('/signup', function (req, res) {
             const payload = {
                   "email": req.body.email,
             }
-            const token = jwt.sign(payload, 'LIO', {expiresIn: '1d'})
+            const token = jwt.sign(payload, 'LIO', {expiresIn: '1d'});
 
-            data.token = token;           
+            data.token = token;    
+            console.log("token created <" + data.token + ">");       
 
 
             global.savedUser.token = data.token;
@@ -53,7 +54,7 @@ router.post('/signup', function (req, res) {
 
             signupResponse.data = data;
 
-            res.status(201).send(signupResponse);
+            res.status(200).send(signupResponse);
       } else {
             // sign up failed:
             /*
