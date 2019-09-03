@@ -3,12 +3,10 @@ bin-debug/
 bin-release/
 [Oo]bj/
 [Bb]in/
-package_lock.json
+
 # Other files and folders
 .settings/
-server/node_modules
-node_modules
-.vscode/
+
 # Executables
 *.swf
 *.air
@@ -18,5 +16,8 @@ node_modules
 # should NOT be excluded as they contain compiler settings and other important
 # information for Eclipse / Flash Builder.
 
+node_modules/
 coverage
 .nyc_output
+.env
+package-lock.json
