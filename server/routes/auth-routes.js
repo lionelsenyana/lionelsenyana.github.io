@@ -7,8 +7,9 @@ const uuid = require('uuid/v4');
 import jwt from 'jsonwebtoken';
 
 let user = null;  // should be []
-var mentor = null;
 var admin = null;
+
+let errorMessage = "";
 
 // Specific to user routes
 router.use(function timeLog (req, res, next) {
@@ -65,7 +66,11 @@ router.post('/signup', function (req, res) {
             */
             var signupResponse =  {};
             signupResponse.status = 401;
-            signupResponse.message = "Failed to register new user";
+            if(errorMessage) {
+                  signupResponse.message = "Failed to register new user: " + errorMessage;
+            } else {
+                  signupResponse.message = "Failed to register new user";
+            }
             res.status(401).send(signupResponse);
       }
 });
@@ -76,12 +81,77 @@ router.signUp = function (req) {
       } else {
             console.log('About to sign up a new user: <' + JSON.stringify(req.body) + '>');
             var isSignedUp = false;
-      
+            errorMessage = "";
             if(req.body.email) {
                   var profile = {};
+                  if(global.allUsers) {
+                        global.allUsers.forEach(
+                              (currentSavedUser) => {
+                                    if(currentSavedUser.email === req.body.email) {
+                                          errorMessage += "user with email" + req.body.email + " is already registered";
+                                          return false;
+                                    }
+                              }
+                        );
+                  }
                   profile.email = req.body.email;
                   profile.password = req.body.password;
-            
+                  if( ! profile.password) {
+                        if( ! errorMessage)
+                              errorMessage += "password is required";
+                        else      
+                              errorMessage += ", password required";
+                  }
+                  profile.firstName = req.body.firstName;
+                  if( ! profile.firstName) {
+                        if( ! errorMessage)
+                              errorMessage += "firstName is required";
+                        else      
+                              errorMessage += ", firstName is required";
+                  }
+
+                  profile.lastName = req.body.lastName;
+                  if( ! profile.lastName) {
+                        if( ! errorMessage)
+                              errorMessage += "lastName is required";
+                        else      
+                              errorMessage += ", lastName is required";
+                  }
+
+                  profile.address = req.body.address;
+                  if( ! profile.address) {
+                        if( ! errorMessage)
+                              errorMessage += "address is required";
+                        else      
+                              errorMessage += ", address is required";
+                  }
+
+                  profile.bio = req.body.bio;
+                  if( ! profile.bio) {
+                        if( ! errorMessage)
+                              errorMessage += "bio is required";
+                        else      
+                              errorMessage += ", bio is required";
+                  }
+
+                  profile.occupation = req.body.occupation;
+                  if( ! profile.occupation) {
+                        if( ! errorMessage)
+                              errorMessage += "occupation is required";
+                        else      
+                              errorMessage += ", occupation is required";
+                  }
+
+                  profile.expertise = req.body.expertise;
+                  if( ! profile.expertise) {
+                        if( ! errorMessage)
+                              errorMessage += "expertise is required";
+                        else      
+                              errorMessage += ", expertise is required";
+                  }
+                  if(errorMessage) {
+                        return false;
+                  }
                   if(profile.email.startsWith('admin')) {
                         // Since the Database is not available yet, the admin is saved in memory
                         admin = profile;
@@ -94,15 +164,20 @@ router.signUp = function (req) {
                         global.savedUser = user;
                         global.savedUser.type = "user";
                         isSignedUp = true;
-                  }     
+                  }   
+                  global.allUsers = [];
+                  global.allUsers.push(global.savedUser);
                   return isSignedUp; // sign up is successful. This will change once DB is available
+            } else {
+                  errorMessage += "email is required";
             }
       }
-}
+};
 
 router.post('/signin', function(req, res) {
       //set the header
       res.set("Content-type", "application/json");
+      errorMessage = "";
       if(router.signIn(req)) {
             //
             var signinResponse =  {};
@@ -129,12 +204,16 @@ router.post('/signin', function(req, res) {
       } else {
             var signinResponse =  {};
             signinResponse.status = 401;
-            signinResponse.message = "Failed to log in new user";
+            if(errorMessage) {
+                  signinResponse.message = "Failed to log in user: " +  errorMessage;
+            } else {
+                  signinResponse.message = "Failed to log in user";
+            }
             return res.status(401).send(signinResponse);
 
       }
 
-})
+});
 
 router.signIn = function(req) {
       //should return true/false
@@ -149,22 +228,33 @@ router.signIn = function(req) {
       */
       if(req && req.body) {
             const authUser = req.body;
-            /*
-             * TODO: code below will be restored when database is in place
-             */
-       //      //filter user from user list (user)
-       //      const userData = user.find(function(u) {
-       //            return u.email === authUser.userNameEmail; // && u.password === authUser.password
-       //      });
-            if(global.savedUser && global.savedUser.email === authUser.email) {
-                  console.log("saved email <" + global.savedUser.email + ">");
-                  console.log("saved password <" + global.savedUser.password + ">");
-                  // compare 
-                  if(global.savedUser.password === authUser.password) {
-                        return true;
-                  }
-                  return false;
-            } else {
+            if( ! authUser.email) {
+                  errorMessage = "email is required to log in";
+            }
+            if( ! authUser.password) {
+                  if( ! errorMessage)
+                        errorMessage = "password is required to log in";
+                  else 
+                        errorMessage += ", password is required to log in";
+            }
+            if(global.allUsers) {
+                  let valid = false;
+                  global.allUsers.forEach(
+                        (currentUser) => {
+                              if(currentUser && currentUser.email === authUser.email) {
+                                    console.log("saved email <" + currentUser.email + ">");
+                                    console.log("saved password <" + currentUser.password + ">");
+                                    if(currentUser.password === authUser.password) {
+                                          valid = true;
+                                    }
+                              } else {
+                                    return false;
+                              }
+                        }
+                  );
+                  return valid;
+            }
+            else {
                   return false;
             }
        
@@ -172,6 +262,6 @@ router.signIn = function(req) {
       else {
             return false;
       }
-}
+};
 
 module.exports = router;

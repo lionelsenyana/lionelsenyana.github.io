@@ -63,20 +63,28 @@
   <script>
     function validateAndSubmit() {
       var userNameEmail = document.getElementById("userNameEmail").value;
+      var errorMessages = "";
       if ( ! userNameEmail) {
-        alert("Missing User Name as Email");
-        return false;
+        errorMessages += "Missing Email<br>";
       } else if ( ! userNameEmail.includes("@")) {
-        alert("Your email is missing'@'");
-        return false;
+        errorMessages += "Your email is missing'@'<br>";
       } 
 
       var password =
         document.getElementById("password").value;
       if ( ! password) {
-        alert("Missing Password");
-        return false;
+        errorMessages += "Missing password<br>";
       } 
+      
+      if(errorMessages) {
+        document.getElementById("inputErrorsSection").innerHTML = errorMessages;
+        document.getElementById("inputErrorsSection").style.display = 'inline';
+        return false;
+      }
+      else {
+        document.getElementById("inputErrorsSection").innerHTML = '';
+        document.getElementById("inputErrorsSection").style.display = 'none';
+      }
 
       /*
        * prepare and make RESTful AJAX call for user sign in:
@@ -92,7 +100,15 @@
               window.location.assign("all-users.html");
             }
           } else if(this.status == 401) {
-            alert("Invalid credentials");
+            console.error("Unable to complete sign up because: <" + this.responseText + ">");
+            var signFailureResponse = JSON.parse(this.responseText);
+            if(signFailureResponse && signFailureResponse.message) {
+              document.getElementById("inputErrorsSection").innerHTML = signFailureResponse.message;
+            } else {
+              document.getElementById("inputErrorsSection").innerHTML = "Invalid credentials";
+            }
+            document.getElementById("inputErrorsSection").style.display = 'inline';
+            return false;
           }
         }
       };
@@ -130,9 +146,11 @@
     <div id="loginSection">
       <h2>Sign in</h2>
       <form>
+        <span id="inputErrorsSection" style="color:red; display: none"></span>
+        <br>
         <input type="text" placeholder="Email" id="userNameEmail">
         <br>
-        <input type="password" placeholder="password" id="password">
+        <input type="password" placeholder="Password" id="password">
         <br>
         <button onclick=validateAndSubmit() type="button" id="logIn">Log in</button>
       </form>
