@@ -39,6 +39,7 @@ describe('User should create sessions', () => {
   });
 });
 
+
 /*
  * 2) Tests for accepting a session:
  */

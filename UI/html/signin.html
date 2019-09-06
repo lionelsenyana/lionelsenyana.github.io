@@ -101,7 +101,13 @@
             var userSignedIn = JSON.parse(this.responseText);
             if (userSignedIn && userSignedIn.status == 200) {
               localStorage.setItem("token", userSignedIn.data.token);
-              window.location.assign("all-users.html");
+              if(userSignedIn.userType === "user") {
+                window.location.assign("user.html");
+              } else if(userSignedIn.userType === "mentor") {
+                window.location.assign("mentor.html");
+              } else if(userSignedIn.userType === "admin") {
+                window.location.assign("admin.html");
+              }
             }
           } else if (this.status == 401) {
             console.error("Unable to complete sign up because: <" + this.responseText + ">");
@@ -120,22 +126,6 @@
       xhttp.open("POST", "/api/v1/auth/signin", true);
       xhttp.setRequestHeader("Content-type", "application/json");
 
-      /*
-      * Follows JSON request object as indicated on page 13 of ADC pdf document.
-      * For now, this project is considering a few fields but others will be added later.
-      * Request format as indicated:
-      * {
-      *  "firstName": String,
-      *  "lastName": String,
-      *  "email": String,
-      *  "password": String,
-      *  "address": String,
-      *  "bio": String,
-      *  "occupation": String,
-      *  "expertise": String,
-      *  ...
-      * }
-      */
       var newUser = {};
       newUser.email = userNameEmail;
       newUser.password = password;
@@ -150,6 +140,8 @@
     <div id="loginSection">
       <h2>Sign in</h2>
       <form>
+        <span id="inputErrorsSection" style="color:red; display: none"></span>	       
+        <br>
         <input type="text" placeholder="Email" id="userNameEmail">
         <br>
         <input type="password" placeholder="password" id="password">

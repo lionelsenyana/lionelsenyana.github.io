@@ -79,7 +79,7 @@
       if (!password) {
         errorMessages += "Missing Password<br>";
       } else if (!confirmPassword) {
-        errorMessages += "Missing confirmation<br>"
+        errorMessages += "Missing password confirmation<br>"
       } else if (password !== confirmPassword) {
         errorMessages += "Password doesn't match<br>";
       } else if (password.length < 6) {
@@ -138,7 +138,13 @@
             var userSignedUp = JSON.parse(this.responseText);
             if (userSignedUp && userSignedUp.status == 201) {
               localStorage.setItem("token", userSignedUp.data.token);
-              window.location.assign("all-users.html");
+              if(userSignedUp.userType === "user") {
+                window.location.assign("user.html");
+              } else if(userSignedUp.userType === "mentor") {
+                window.location.assign("mentor.html");
+              } else if(userSignedUp.userType === "admin") {
+                window.location.assign("admin.html");
+              }
             }
           } else {
             console.error("Unable to complete sign up because: <" + this.responseText + ">");
@@ -191,6 +197,8 @@
     <div id="formSection">
       <h2>Sign up</h2>
       <form>
+        <span id="inputErrorsSection" style="color:red; display: none"></span>	       
+        <br>
         <input type="text" placeholder="first Name" id="firstName">
         <br>
         <input type="text" placeholder="last Name" id="lastName">

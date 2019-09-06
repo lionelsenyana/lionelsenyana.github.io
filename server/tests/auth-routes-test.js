@@ -12,6 +12,12 @@ chai.use(chaiHttp);
 const newUser = {
   email: '1@gmail.com',
   password: '123456',
+  firstName: "Some",
+  lastName: "User",
+  address: "123 Main",
+  bio: "Always coding",
+  occupation: "Software Engineer",
+  expertise: "Nodejs"
 };
 
 /*

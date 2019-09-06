@@ -50,7 +50,10 @@ router.post('/signup', function (req, res) {
 
 
             global.savedUser.token = data.token;
+            global.allUsers[global.allUsers.length - 1].token = global.savedUser.token;
             data.message = "User created successfully";
+
+            signupResponse.userType = global.allUsers[global.allUsers.length - 1].type;
 
             signupResponse.data = data;
 
@@ -164,8 +167,10 @@ router.signUp = function (req) {
                         global.savedUser = user;
                         global.savedUser.type = "user";
                         isSignedUp = true;
-                  }   
-                  global.allUsers = [];
+                  } 
+                  if( ! global.allUsers) {
+                        global.allUsers = [];
+                  }
                   global.allUsers.push(global.savedUser);
                   return isSignedUp; // sign up is successful. This will change once DB is available
             } else {
@@ -196,9 +201,11 @@ router.post('/signin', function(req, res) {
             data.token = token; 
 
             global.savedUser.token = data.token;
+            global.allUsers[global.allUsers.length - 1].token = global.savedUser.token;
             data.message = "User is successfully logged in";
 
             signinResponse.data = data;
+            signinResponse.userType = global.allUsers[global.allUsers.length - 1].type;
 
            return res.status(200).send(signinResponse);
       } else {
@@ -239,8 +246,11 @@ router.signIn = function(req) {
             }
             if(global.allUsers) {
                   let valid = false;
+                  console.log("All users so far <" + JSON.stringify(global.allUsers) + ">");
                   global.allUsers.forEach(
                         (currentUser) => {
+                              console.log("saved email [" + currentUser.email + "]");
+                              console.log("email passed in [" + authUser.email + "]");
                               if(currentUser && currentUser.email === authUser.email) {
                                     console.log("saved email <" + currentUser.email + ">");
                                     console.log("saved password <" + currentUser.password + ">");
