@@ -69,7 +69,7 @@ describe('Mentor should accept a session', () => {
   });
 
 
-/*
+  /*
  * 3) Tests for rejecting a session:
  */
 describe('Mentor should reject a session', () => {

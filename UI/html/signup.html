@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <style>
     body {
@@ -13,6 +12,7 @@
       color: black;
       text-align: center;
     }
+
     .container {
       background-color: black;
       opacity: 0.8;
@@ -22,11 +22,13 @@
       padding-bottom: 0px;
       text-align: center;
     }
+
     #footer {
-  text-align: center;
-  color: white;
-  padding-bottom: 10px
+      text-align: center;
+      color: white;
+      padding-bottom: 10px
     }
+
     label,
 
     input {
@@ -60,7 +62,6 @@
       background-color: orange;
       display: inline-block;
       margin-bottom: 10px
-
     }
   </style>
 
@@ -68,16 +69,16 @@
     function validateAndSubmit() {
       var userNameEmail = document.getElementById("userNameEmail").value;
       var errorMessages = "";
-      if ( ! userNameEmail) {
+      if (!userNameEmail) {
         errorMessages += "Missing User Name as Email<br>";
-      } else if ( ! userNameEmail.includes("@")) {
+      } else if (!userNameEmail.includes("@")) {
         errorMessages += "Your email is missing'@'<br>";
       }
       var password = document.getElementById("password").value;
       var confirmPassword = document.getElementById("confirmPassword").value;
-      if ( ! password) {
+      if (!password) {
         errorMessages += "Missing Password<br>";
-      } else if ( ! confirmPassword) {
+      } else if (!confirmPassword) {
         errorMessages += "Missing confirmation<br>"
       } else if (password !== confirmPassword) {
         errorMessages += "Password doesn't match<br>";
@@ -86,36 +87,36 @@
       }
 
       var firstName = document.getElementById("firstName").value;
-      if( ! firstName) {
+      if (!firstName) {
         errorMessages += "Missing First Name<br>";
       }
 
       var lastName = document.getElementById("lastName").value;
-      if( ! lastName) {
+      if (!lastName) {
         errorMessages += "Missing Last Name<br>";
       }
 
       var userAddress = document.getElementById("userAddress").value;
-      if( ! userAddress) {
+      if (!userAddress) {
         errorMessages += "Missing Address<br>";
       }
 
       var userBio = document.getElementById("userBio").value;
-      if( ! userBio) {
+      if (!userBio) {
         errorMessages += "Missing Biography<br>";
       }
 
       var occupation = document.getElementById("userOccupation").value;
-      if( ! occupation) {
+      if (!occupation) {
         errorMessages += "Missing Occupation<br>";
       }
 
       var expertise = document.getElementById("userExpertise").value;
-      if( ! expertise) {
+      if (!expertise) {
         errorMessages += "Missing Expertise<br>";
       }
-      
-      if(errorMessages) {
+
+      if (errorMessages) {
         document.getElementById("inputErrorsSection").innerHTML = errorMessages;
         document.getElementById("inputErrorsSection").style.display = 'inline';
         return false;
@@ -129,26 +130,26 @@
        * prepare and make RESTful AJAX call for user sign up:
        */
       var xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function() {
+      xhttp.onreadystatechange = function () {
         if (this.readyState == 4) { // it is 4 when received response from server
-          if(this.status == 201) {
+          if (this.status == 201) {
             // Response came back with success, user is successfully registered
             console.log("Message after user sign up: <" + this.responseText + ">");
             var userSignedUp = JSON.parse(this.responseText);
-            if(userSignedUp && userSignedUp.status == 201) {
+            if (userSignedUp && userSignedUp.status == 201) {
               localStorage.setItem("token", userSignedUp.data.token);
               window.location.assign("all-users.html");
             }
           } else {
             console.error("Unable to complete sign up because: <" + this.responseText + ">");
             var signFailureResponse = JSON.parse(this.responseText);
-            if(signFailureResponse && signFailureResponse.message) {
+            if (signFailureResponse && signFailureResponse.message) {
               document.getElementById("inputErrorsSection").innerHTML = signFailureResponse.message;
               document.getElementById("inputErrorsSection").style.display = 'inline';
             }
             return false;
           }
-        } 
+        }
       };
       xhttp.open("POST", "/api/v1/auth/signup", true);
       xhttp.setRequestHeader("Content-type", "application/json");
@@ -190,18 +191,15 @@
     <div id="formSection">
       <h2>Sign up</h2>
       <form>
-        <span id="inputErrorsSection" style="color:red; display: none"></span>
+        <input type="text" placeholder="first Name" id="firstName">
         <br>
-        <input type="text" placeholder="First Name" id="firstName">
-        <br>
-        <div></div>
-        <input type="text" placeholder="Last Name" id="lastName">
+        <input type="text" placeholder="last Name" id="lastName">
         <br>
         <input type="text" placeholder="Email" id="userNameEmail">
         <br>
-        <input type="password" placeholder="Password" id="password">
+        <input type="password" placeholder="password" id="password">
         <br>
-        <input type="password" placeholder="Confirm Password" id="confirmPassword">
+        <input type="password" placeholder="confirm Password" id="confirmPassword">
         <br>
         <input type="text" placeholder="Address" id="userAddress">
         <br>

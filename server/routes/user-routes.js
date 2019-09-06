@@ -150,4 +150,3 @@ router.patch('localstorage', function(req, res) {
 // Next is admin gets a list of mentors
 
 module.exports = router;
-

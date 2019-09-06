@@ -83,34 +83,34 @@ router.readAllMentors = function(inputToken) {
 
 
 router.get('/:mentorId', function (req, res) {
-      res.set("Content-type", "application/json");
-      console.log('About to read a specific mentor with Id: <' + req.params.mentorId + '>');
+    res.set("Content-type", "application/json");
+    console.log('About to read a specific mentor with Id: <' + req.params.mentorId + '>');
 
-      if(global.savedUser && global.savedUser.token === req.get('token')) {
-            var mentorId = req.params.mentorId;
+    if(global.savedUser && global.savedUser.token === req.get('token')) {
+          var mentorId = req.params.mentorId;
 
-            var allMentors = [mentor1, mentor2]; // Using hard-coded values since there is no database
-            
-            var data = {};
-            allMentors.forEach(
-                  (mentor) => {
-                        if(mentor.mentorId === mentorId) {
-                              data = mentor;
-                        }
-                  }
-            );
-            
-            var specificMentorResponse = {};
-            specificMentorResponse.status = 200;
-            specificMentorResponse.data = data;
-      
-            res.status(200).send(specificMentorResponse);
-      } else {
-            var signinResponse =  {};
-            signinResponse.status = 401;
-            signinResponse.message = "User is not authenticated";
-            return res.status(401).send(signinResponse);
-      }
+          var allMentors = [mentor1, mentor2]; // Using hard-coded values since there is no database
+          
+          var data = {};
+          allMentors.forEach(
+                (mentor) => {
+                      if(mentor.mentorId === mentorId) {
+                            data = mentor;
+                      }
+                }
+          );
+          
+          var specificMentorResponse = {};
+          specificMentorResponse.status = 200;
+          specificMentorResponse.data = data;
+    
+          res.status(200).send(specificMentorResponse);
+    } else {
+          var signinResponse =  {};
+          signinResponse.status = 401;
+          signinResponse.message = "User is not authenticated";
+          return res.status(401).send(signinResponse);
+    }
 });
 
 
