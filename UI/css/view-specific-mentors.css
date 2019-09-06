@@ -1,0 +1,13 @@
+body {
+    background-color: #AF877F;
+}
+
+h2 {
+    text-align: center;
+}
+
+ol li {
+    list-style-type: Times-Newroman;
+    margin-left: 400px;
+    padding: 8px;
+}

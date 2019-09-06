@@ -1,0 +1,20 @@
+body {
+    background-color: #AF877F;
+}
+
+h2 {
+    text-align: center;
+}
+
+ol li {
+    list-style-type: Times-Newroman;
+    margin-left: 400px;
+    padding: 8px;
+}
+table, tr, td, th{
+    border:2px solid black;
+    width:40%;
+}
+table{
+    width:20%;  
+}

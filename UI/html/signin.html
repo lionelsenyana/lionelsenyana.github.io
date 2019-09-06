@@ -2,137 +2,6 @@
 <html lang="en">
 
 <head>
-  <style>
-    body {
-      background-image: url("../assets/image_background.jpg");
-      background-size: cover;
-      background-position: center;
-    }
-
-    h2 {
-      color: solid black;
-      text-align: center;
-    }
-
-    .container {
-      background-color: black;
-      opacity: 0.8;
-      padding-top: 50px;
-      padding-left: 50px;
-      padding-right: 50px;
-      padding-bottom: 20px;
-      text-align: center;
-    }
-
-    #loginSection {
-      text-align: center;
-      border: 2px solid orange;
-      width: 45%;
-      background-color: orange;
-      display: inline-block;
-      margin-bottom: 220px;
-    }
-
-    label,
-    input {
-      display: inline-block;
-    }
-
-    label {
-      width: 15%;
-      text-align: left;
-    }
-
-    input {
-      width: 400px;
-      margin-top: 10px;
-      padding: 5px 5px;
-      font-weight: bold;
-    }
-
-    #footer {
-      text-align: center;
-      color: white;
-      padding-bottom: 15px;
-    }
-
-    button {
-      margin-top: 30px;
-      text-align: center;
-      padding: 10px 50px;
-      margin-bottom: 20px;
-    }
-  </style>
-
-  <script>
-    function validateAndSubmit() {
-      var userNameEmail = document.getElementById("userNameEmail").value;
-      var errorMessages = "";
-      if (!userNameEmail) {
-        errorMessages += "Missing Email<br>";
-      } else if (!userNameEmail.includes("@")) {
-        errorMessages += "Your email is missing'@'<br>";
-      }
-
-      var password =
-        document.getElementById("password").value;
-      if (!password) {
-        errorMessages += "Missing password<br>";
-      }
-
-      if (errorMessages) {
-        document.getElementById("inputErrorsSection").innerHTML = errorMessages;
-        document.getElementById("inputErrorsSection").style.display = 'inline';
-        return false;
-      }
-      else {
-        document.getElementById("inputErrorsSection").innerHTML = '';
-        document.getElementById("inputErrorsSection").style.display = 'none';
-      }
-
-      /*
-       * prepare and make RESTful AJAX call for user sign in:
-       */
-      var xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function () {
-        if (this.readyState == 4) { // Response came back when ready state is 4
-          if (this.status == 200) { // Response came back with success, user is successfully logged in
-            console.log("Message after user sign in: <" + this.responseText + ">");
-            var userSignedIn = JSON.parse(this.responseText);
-            if (userSignedIn && userSignedIn.status == 200) {
-              localStorage.setItem("token", userSignedIn.data.token);
-              if(userSignedIn.userType === "user") {
-                window.location.assign("user.html");
-              } else if(userSignedIn.userType === "mentor") {
-                window.location.assign("mentor.html");
-              } else if(userSignedIn.userType === "admin") {
-                window.location.assign("admin.html");
-              }
-            }
-          } else if (this.status == 401) {
-            console.error("Unable to complete sign up because: <" + this.responseText + ">");
-            var signFailureResponse = JSON.parse(this.responseText);
-            if (signFailureResponse && signFailureResponse.message) {
-              document.getElementById("inputErrorsSection").innerHTML = signFailureResponse.message;
-            } else {
-              document.getElementById("inputErrorsSection").innerHTML = "Invalid credentials";
-            }
-            document.getElementById("inputErrorsSection").style.display = 'inline';
-            return false;
-          }
-        }
-      };
-
-      xhttp.open("POST", "/api/v1/auth/signin", true);
-      xhttp.setRequestHeader("Content-type", "application/json");
-
-      var newUser = {};
-      newUser.email = userNameEmail;
-      newUser.password = password;
-
-      xhttp.send(JSON.stringify(newUser));
-    }
-  </script>
 </head>
 
 <body>
@@ -140,13 +9,15 @@
     <div id="loginSection">
       <h2>Sign in</h2>
       <form>
-        <span id="inputErrorsSection" style="color:red; display: none"></span>	       
-        <br>
         <input type="text" placeholder="Email" id="userNameEmail">
         <br>
         <input type="password" placeholder="password" id="password">
         <br>
-        <button onclick=validateAndSubmit() type="button" id="logIn">Log in</button>
+        <button onclick=validateAndSubmit() type="button" id="logIn">
+          <a href="user.html">
+            Log in
+          </a>
+          </button>
       </form>
     </div>
     <p id="footer">

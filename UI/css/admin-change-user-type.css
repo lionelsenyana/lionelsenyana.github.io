@@ -1,0 +1,31 @@
+body {
+    background-color: #AF877F;
+}
+
+h2 {
+    color: solid black;
+    text-align: center;
+}
+
+p {
+    color: solid grey;
+    text-align: center;
+}
+
+form,
+button {
+    display: inline-block;
+}
+
+form {
+    color: grey;
+}
+
+button {
+    margin-top: 10px;
+    padding: 10px 50px;
+}
+
+#actionSection {
+    text-align: center;
+}
