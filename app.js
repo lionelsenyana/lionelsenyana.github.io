@@ -28,7 +28,7 @@ app.use(requestBodyParser.json());
 
 // landing page to Free Mentors application
 app.get(['/', '/api/v1'], (req, res) => {
-  res.sendFile(path.join(`${__dirname}/UI/index.html`));
+  res.sendFile(path.join(`${__dirname}/UI/html/index.html`));
 });
 
 app.use('/api/v1/auth', authorizationRouter);
